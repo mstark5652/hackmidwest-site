@@ -1,0 +1,56 @@
+$background-color: #fff;
+$light-background-color: #eee;
+$dark-background-color: #333;
+$dark-text-color: #333;
+$light-text-color: #fff;
+$base-font-family: 'Roboto', sans-serif;
+
+$danger-color: #F00;
+$primary-color: #155EA2;
+$primary-color-dark: #14508F;
+// $accent-color: #6F4C5E;
+$accent-color: #b2d236;
+$accent-outline-color: #1cb2a9;
+$light-accent-color: #FED89D;
+
+$header-color: #aaa;
+
+$nav-background-color: $primary-color-dark;//#555;
+$nav-title-color: $primary-color;
+$nav-text-color: $light-background-color;
+$nav-item-selected: $primary-color;
+$nav-item-hover: #aaa;
+$nav-height: 50px;
+
+$login-form-size: 500px;
+
+
+/*
+ * font sizes
+ */
+
+$font-size-notification: 16px;
+$font-size-nav-item: 16px;
+
+
+/*
+ * zindex layers
+ */
+
+$zindex-nav-control: 1800;
+$zindex-notification-center: 1900;
+$zindex-notification-content: 1901;
+$zindex-loading: 2000;
+
+/*
+ * Media Breakpoints
+ */
+
+// Small devices (tablets, 600px and up).
+$screen-s: '(max-width: 600px)';
+// Medium devices (desktops, 1024px and up).
+$screen-m: '(max-width: 1440px)';
+// Large devices (large desktops, 1200px and up).
+$screen-l: '(max-width: 1600px)';
+// Landscape mode
+// $screen-ls: '(max-height: 500px)';

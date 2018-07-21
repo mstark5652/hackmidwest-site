@@ -7,5 +7,5 @@ See LICENSE.md
 
 
 ## Commands
-* `python run.py` start server
+* `python run.py --debug` start server
 * `virtualenv -p /usr/local/bin/python3 venv` create virutal env with python3

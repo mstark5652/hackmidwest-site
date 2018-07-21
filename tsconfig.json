@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "outDir": "./public/dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "allowJs": true,
+        "module": "commonjs",
+        "target": "es2015",
+        "rootDir": "src",
+        "jsx": "react",
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "webpack",
+        "public"
+    ],
+    "include": [
+        "./src/**/*"
+    ]
+}

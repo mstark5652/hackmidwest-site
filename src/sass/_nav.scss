@@ -1,0 +1,72 @@
+
+.header {
+  background-color: $light-background-color;
+  padding: 30px;
+  text-align: center;
+}
+
+.nav-container {
+  z-index: $zindex-nav-control;
+}
+#navbar {
+  overflow: hidden;
+  background-color: $nav-background-color;
+  z-index: $zindex-nav-control;
+  height: $nav-height;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  color: $nav-text-color;
+  text-align: center;
+  padding: 19px 20px;
+  text-decoration: none;
+  font-size: $font-size-nav-item;
+  z-index: $zindex-nav-control;
+}
+
+#navbar a.active {
+  background-color: $primary-color-dark;
+  color: $nav-text-color;
+}
+#navbar .logo {
+  padding: 10px 14px;
+}
+#navbar .nav-right {
+  float: right;
+}
+#navbar a.name {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+#navbar.sticky a.name {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 60px;
+}
+
+.anchor {
+  display: block;
+  position: relative;
+  top: -70px;
+  visibility: hidden;
+}
+
+
