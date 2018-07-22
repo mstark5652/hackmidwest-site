@@ -20,7 +20,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
 from .util.util import create_guid, web_get, web_post
 from .util.Exception import InvalidUsage, BadRequest, UnauthorizedException
 
-DOMAIN = "https://my-neighborhood.herokuapp.com"
+DOMAIN = "http://my-neighborhood.herokuapp.com"
 NAMESPACE = "/heremapsapi"
 
 TWILIO_NUMBER = "+19132707424"

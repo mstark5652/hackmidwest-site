@@ -9487,11 +9487,11 @@ class Ui {
         let _state = -1;
         let params = new URLSearchParams(location.search);
         if (params.has('response')) {
-            if (params.get('response') == "1") {
+            if (params.get('response') == "3") {
                 _state = 0;
                 this.stateManager.changeState(0);
             }
-            else if (params.get('response') == "3") {
+            else if (params.get('response') == "1") {
                 _state = 4;
                 this.stateManager.changeState(4);
             }
