@@ -1,1 +1,1 @@
-web: python run.py --port=8080
+web: python run.py --port=8000
