@@ -24,3 +24,4 @@ urllib3==1.23
 Werkzeug==0.14.1
 yapf==0.22.0
 web3==4.4.1
+nexosisapi==3.0.1

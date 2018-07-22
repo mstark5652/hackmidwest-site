@@ -12,6 +12,8 @@ class AppConfig(object):
         self.twilio_key = ""
         self.twilio_number = ""
 
+        self.nexosis_key = ""
+
         self.load_box_auth()
 
     def load_box_auth():

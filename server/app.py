@@ -106,6 +106,13 @@ def upload_box():
     # from media_upload import upload_box
     # upload_box(body['input_file'])
 
+@app.route('/api/tips/predict', methods=['GET'])
+def tips_predict():
+    limit = request.args.get('limit')
+    # from ml import run_tip_prediction
+    # results = run_tip_prediction()
+    # return jsonify(results)
+
 
 @app.route('/api/job', methods=['GET'])
 def create_job():
