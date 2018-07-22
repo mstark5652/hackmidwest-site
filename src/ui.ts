@@ -201,7 +201,8 @@ class Ui {
     let _this = this
     let socket = io.connect('http://' + document.domain + ':' + location.port + NAMESPACE)
     socket.on('connected', function(msg: object) {
-      _this.showNotification(content.SOCKET_CONNECTION)
+      // _this.showNotification(content.SOCKET_CONNECTION)
+      console.log(content.SOCKET_CONNECTION)
     })
 
     socket.on('marker', function (data: MarkerMeta) {
