@@ -6,7 +6,7 @@
 # Copyright 2018 Michael Stark. All Rights Reserved.
 #
 
-import os, sys, json, threading
+import os, sys, json, threading, random
 
 from okta import UsersClient
 from okta.models.user import User
@@ -20,7 +20,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
 from .util.util import create_guid, web_get, web_post
 from .util.Exception import InvalidUsage, BadRequest, UnauthorizedException
 
-DOMAIN = "http://62eba3a7.ngrok.io"
+DOMAIN = "https://neighborhood.heroku.com"
 NAMESPACE = "/heremapsapi"
 
 TWILIO_NUMBER = "+19132707424"
@@ -39,12 +39,12 @@ thread_lock = Lock()
 
 
 
-
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def main(path):
-    """ Only entry point for front end since it is a single page app """
-
+    """ 
+        Only entry point for front end since it is a single page app 
+    """
 
     return render_template('index.html', async_mode=socketio.async_mode)
 
@@ -63,14 +63,6 @@ def create_marker():
 
     center = True if request.args.get('center') == "1" else False
 
-    # marker_args = {
-    #     'id': None,
-    #     'lat': lat,
-    #     'lng': lng,
-    #     'center': center
-    # }
-    # marker_thread = threading.Thread(target=send_marker, args=marker_args)
-    # marker_thread.start()
     marker = send_marker(id=None, lat=lat, lng=lng, center=center)
     # session['marker-' + marker.id] = jsonify(marker)
 
@@ -105,15 +97,22 @@ def create_job():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
 
-    send_marker(id=id, lat=lat, lng=lng)
+    src = "/static/images/pin_aqua.svg" if id == "1" else "/static/images/pin_orange.svg"
+
+    send_marker(id=id, lat=lat, lng=lng, src=src)
     msg = "{job} Tap here to respond.".format(job=job)
     send_message(message=msg)
+    send_state_change(state_type="job", val=id)
+
+
+    greetings = ['Hey', 'Hi', 'Howdy', 'Hello']
+    rand = random.randint(0, len(greetings) - 1)
 
     users = get_okta_users()
     for user in users:
         if 'phone' in user and user['phone'] is not None and len(user['phone']) > 0 and user['phone'].startswith('+'):
-            sms = "Hey {user}, {job} Tap here {domain}?response={id}&user={user} to respond.".format(
-                job=job, domain=DOMAIN, id=id, user=user['first'])
+            sms = "{greet} {user}, {job} Tap here {domain}?response={id} to respond.".format(
+                greet=greetings[rand], job=job, domain=DOMAIN, id=id, user=user['first'])
             send_sms(message=sms, number=user['phone'])
 
     res = {"status": "ok"}
@@ -133,7 +132,7 @@ def create_user():
 
     create_okta_user(first, last, phone)
 
-    send_message(message="{first} just joined The Neighborhood.".format(first=first))
+    send_message(message="{first} just joined the Neighborhood.".format(first=first))
 
     res = {"status": "ok"}
     return jsonify(res)
@@ -173,14 +172,14 @@ def background_thread():
     """Example of how to send server generated events to clients."""
     count = 0
     while True:
-        socketio.sleep(0.3)
+
         count += 1
         socketio.emit('my_response',
                       {'data': 'Server generated event', 'count': count},
                       namespace='/test')
 
 def load_markers():
-    socketio.sleep(0.3)
+
     if session is not None:
         for item in session:
             if item.startswith('marker-'):
@@ -196,14 +195,17 @@ def send_marker(id, lat, lng, center=False, src=""):
         'lng': lng,
         'center': center
     }
-    socketio.sleep(0.3)
+
     socketio.emit('marker', { 'lat': lat, 'lng': lng, 'center': center, 'src': src }, namespace=NAMESPACE)
     return marker
 
 def send_message(message):
     """ """
-    socketio.sleep(0.3)
+
     socketio.emit('add-message', {'id': create_guid(), 'message': message}, namespace=NAMESPACE)
+
+def send_state_change(state_type, val):
+    socketio.emit('state-change', { 'type': state_type, 'val': val }, namespace=NAMESPACE)
 
 def send_sms(message, number):
     print("Sending text message:")

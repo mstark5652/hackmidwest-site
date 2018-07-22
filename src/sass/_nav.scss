@@ -1,13 +1,18 @@
 
-.header {
-  background-color: $light-background-color;
-  padding: 30px;
-  text-align: center;
-}
+// .header {
+//   background-color: $light-background-color;
+//   padding: 30px;
+//   text-align: center;
+// }
 
 .nav-container {
   z-index: $zindex-nav-control;
+  // background-image: url("/static/images/nav/cleanNav.png");
+  background-size: 100%;
+  background-position: 0;
+  background-repeat: no-repeat;
 }
+
 #navbar {
   overflow: hidden;
   background-color: $nav-background-color;

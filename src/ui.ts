@@ -1,8 +1,10 @@
 
 
+import { StateManager } from './state'
 import { content } from './content'
 // import { isMobile, isChromeIOS } from './utils'
 import { HereMap, Coords, MarkerMeta } from './map'
+
 
 import * as io from 'socket.io-client'
 
@@ -10,13 +12,15 @@ const styles = require('./sass/main')
 
 
 const VIEWS = {
-  BTN_INFO: "btn-info",
+  // BTN_INFO: "btn-info",
   NOTIFICATION_CENTER: "notification-center",
   NOTIFICATION_CONTENT: "notification-content"
 }
 
 const SELECTORS = {
-  BTN_INFO: ".btn-info",
+  // BTN_INFO: ".btn-info",
+  CONTAINER: ".container",
+  NAV_CONTAINER: ".nav-container",
   NOTIFICATION_CENTER: ".notification-center",
   NOTIFICATION_CONTENT: ".notification-content",
   LOADING: ".loading",
@@ -45,10 +49,17 @@ export interface MessageData {
   added: boolean
 }
 
+export interface StateChange {
+  type: string,
+  val: string
+}
+
 class Ui {
 
   viewsList: ViewsListTypes
-  btnInfo: HTMLButtonElement
+  // btnInfo: HTMLButtonElement
+  container: HTMLElement
+  navContainer: HTMLElement
   notificationCenter: HTMLElement
   notificationEle: HTMLElement
   notificationQueue: Array<string>
@@ -61,15 +72,19 @@ class Ui {
   messages: Array<MessageData>
   
   sideBarContainer: HTMLElement
-  sideBar: HTMLElement
+  // sideBar: HTMLElement
   
   mapContainer: HTMLDivElement
   hereMap: HereMap
   startingCoords: Coords
 
+  stateManager: StateManager
+
   constructor() {
     
-    this.btnInfo = document.querySelector(SELECTORS.BTN_INFO)
+    // this.btnInfo = document.querySelector(SELECTORS.BTN_INFO)
+    this.container = document.querySelector(SELECTORS.CONTAINER)
+    this.navContainer = document.querySelector(SELECTORS.NAV_CONTAINER)
     this.notificationCenter = document.querySelector(SELECTORS.NOTIFICATION_CENTER)
     this.notificationEle = document.querySelector(SELECTORS.NOTIFICATION_CONTENT)
     this.notificationQueue = new Array()
@@ -81,7 +96,7 @@ class Ui {
     }
 
     this.sideBarContainer = document.querySelector(SELECTORS.SIDE_BAR_CONTAINER)
-    this.sideBar = document.querySelector(SELECTORS.SIDE_BAR)
+    // this.sideBar = document.querySelector(SELECTORS.SIDE_BAR)
     this.mapContainer = document.querySelector(SELECTORS.MAP_CONTAINER)
     
     this.timer = 0
@@ -90,6 +105,10 @@ class Ui {
     this.messages = []
     this.startingCoords = content.LOCATION.IWERX
 
+    this.stateManager = new StateManager(
+      this.navContainer, this.mapContainer, this.sideBarContainer)
+
+    this.stateManager.changeState(-1) // TODO: change back to -1
   }
 
   init() {
@@ -104,17 +123,57 @@ class Ui {
 
     this.connectSocket()
     this.addInitialMessages()
+    
   }
 
   addEvents() {
     
-    this.btnInfo.addEventListener('click', () => {
-      this.showInfo()
+    // this.btnInfo.addEventListener('click', () => {
+    //   this.showInfo()
+    // })
+    let _this = this
+    this.container.addEventListener('click', () => {
+      console.log("changing state - current:", _this.stateManager.value)
+      if (_this.stateManager.value >= 0) {
+        _this.stateManager.moveState()
+      }
     })
     this.notificationCenter.addEventListener('click', () => {
-      this.hideNotification()
+      _this.hideNotification()
     })
 
+    document.addEventListener("marker-update", () => {
+      // _this.hereMap.
+    })
+    document.addEventListener("resize-map-for-small", () => {
+      // _this.hereMap.resize()
+      // _this.hereMap.map.setZoom(10)
+      // setTimeout(() => {
+      //   if (_this.stateManager.value == 2) {
+      //     _this.hereMap.centerBetween(content.LOCATION.IWERX, content.LOCATION.BBQ)
+      //   } else if (_this.stateManager.value == 6) {
+      //     _this.hereMap.centerBetween(content.LOCATION.IWERX, content.LOCATION.NEW)
+      //   }
+      // }, 1000);
+    })
+    document.addEventListener("reset-map", () => {
+      _this.hereMap.resetObjects()
+      // _this.hereMap.resize()
+      // _this.hereMap.defaultZoom()
+    })
+    document.addEventListener("add-iwerx-marker", () => {
+      _this.hereMap.addMarker(content.SVG.MARKER_BLUE, content.LOCATION.IWERX)
+    })
+    document.addEventListener("show-directions", () => {
+      // _this.hereMap.
+      if (_this.stateManager.value == 1) {
+        // frank/dwayne directions
+        _this.hereMap.route(content.LOCATION.IWERX, content.LOCATION.BBQ)
+      } else if (_this.stateManager.value == 5) {
+        // evelyn/matt directions
+        _this.hereMap.route(content.LOCATION.IWERX, content.LOCATION.NEW)
+      }
+    })
   }
 
   // Socket
@@ -126,16 +185,29 @@ class Ui {
     })
 
     socket.on('marker', function (data: MarkerMeta) {
-      _this.showNotification("Adding marker")
       let src = data.src == "" ? content.SVG.MARKER_AQUA : data.src
+      console.log("marker src", data.src)
       _this.hereMap.addMarker(src,
-        { lat: data.lat, lng: data.lng }, 
+        { lat: data.lat, lng: data.lng },
         data.center)
     })
     socket.on('add-message', function (data: MessageData) {
       data.added = false
       _this.messages.push(data)
       _this.updateMessageUI()
+    })
+
+    socket.on('state-change', function (data: StateChange) {
+      if (data.type == "job") {
+        if (data.val == "1") {
+          // show evelyn
+          _this.stateManager.changeState(4) // TODO
+        } else if (data.val == "3") {
+          // show dwayne alert
+          _this.stateManager.changeState(0) // TODO
+        }
+      }
+      
     })
 
   }
@@ -147,18 +219,18 @@ class Ui {
 
   updateMessageUI() {
     
-    for (let i = 0; i < this.messages.length; i++) {
-      const element = this.messages[i];
-      if (!element.added) {
-        let ele = <HTMLLIElement>(document.createElement('li'))
-        ele.id = element.id
-        ele.innerText = element.message
-        this.sideBar.appendChild<HTMLElement>(ele)
-        element.added = true
-      }
-    }
-    let height = this.sideBarContainer.scrollHeight
-    this.sideBarContainer.scrollTo(0, height)
+    // for (let i = 0; i < this.messages.length; i++) {
+    //   const element = this.messages[i];
+    //   if (!element.added) {
+    //     let ele = <HTMLLIElement>(document.createElement('li'))
+    //     ele.id = element.id
+    //     ele.innerText = element.message
+    //     this.sideBar.appendChild<HTMLElement>(ele)
+    //     element.added = true
+    //   }
+    // }
+    // let height = this.sideBarContainer.scrollHeight
+    // this.sideBarContainer.scrollTo(0, height)
   }
 
 
@@ -233,7 +305,7 @@ class Ui {
     // this.toggleLoading(true)
     // setTimeout(() => {
     //   this.showNotification(content.INFO)
-    this.hereMap.addMarker(content.SVG.MARKER_PINK, content.LOCATION.KLAMM, true)
+    // this.hereMap.addMarker(content.SVG.MARKER_PINK, content.LOCATION.KLAMM, true)
     
     //   this.toggleLoading(false)
     // }, 2000);
@@ -288,7 +360,7 @@ class Ui {
         content.HERE_ID, 
         this.startingCoords)
     this.hereMap.initMap()
-    // this.hereMap.addMarker(content.SVG.MARKER_AQUA, content.LOCATION.IWERX)
+    // this.hereMap.addMarker(content.SVG.MARKER_ORANGE, content.LOCATION.IWERX)
   }
 }
 
