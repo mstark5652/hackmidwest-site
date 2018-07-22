@@ -112,6 +112,18 @@ class Ui {
   }
 
   init() {
+    let _state = -1
+    let params = new URLSearchParams(location.search)
+    if (params.has('response')) {
+      if (params.get('response') == "1") {
+        _state = 0
+        this.stateManager.changeState(0)
+      } else if (params.get('response') == "3") {
+        _state = 4
+        this.stateManager.changeState(4)
+      }
+    }
+
     this.hideNotification()
     this.toggleLoading(false)
 
@@ -119,7 +131,7 @@ class Ui {
     this.resetAudioSources()
     this.addEvents()
 
-    this.setupMap()
+    this.setupMap(_state)
 
     this.connectSocket()
     this.addInitialMessages()
@@ -353,7 +365,7 @@ class Ui {
     this.loadingEle.hidden = !show;
   }
 
-  setupMap() {
+  setupMap(paramState: number) {
     this.hereMap = new HereMap(
         this.mapContainer, 
         content.HERE_KEY, 
@@ -361,6 +373,14 @@ class Ui {
         this.startingCoords)
     this.hereMap.initMap()
     // this.hereMap.addMarker(content.SVG.MARKER_ORANGE, content.LOCATION.IWERX)
+    console.log("ParamState", paramState)
+    if (paramState == 0) {
+      this.hereMap.addMarker(content.SVG.MARKER_BLUE, content.LOCATION.IWERX)
+      this.hereMap.addMarker(content.SVG.MARKER_ORANGE, content.LOCATION.BBQ)
+    } else if (paramState == 4) {
+      this.hereMap.addMarker(content.SVG.MARKER_BLUE, content.LOCATION.IWERX)
+      this.hereMap.addMarker(content.SVG.MARKER_AQUA, content.LOCATION.NEW)
+    }
   }
 }
 
