@@ -16,3 +16,12 @@ def run_tip_prediction():
     # after some time passes you can get results...
     results = client.sessions.get_results(session.session_id)
     return results
+
+
+def entity_rec(query):
+    """ Elastic call for entity rec """
+    appConfig = AppConfig()
+
+    url = "https://73a833ddda7242c083e0492083c53049.us-east-1.aws.found.io:9243/_search"
+    from .util.util import web_post
+    web_get(url)

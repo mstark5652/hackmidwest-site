@@ -14,6 +14,9 @@ class AppConfig(object):
 
         self.nexosis_key = ""
 
+        self.elastic_user = "elastic"
+        self.elastic_pw = "okkekJYcY6SeSjlp0wMJmR5y"
+
         self.load_box_auth()
 
     def load_box_auth():
