@@ -90,8 +90,21 @@ def create_message():
 def create_tip():
     amount = request.args.get('amount')
     to = request.args.get('to')
-    
+
     # execute_contract(to, amount)
+
+@app.route('/api/upload/cloudinary', methods=['POST'])
+def upload_cloudinary():
+    body = request.json()
+    # from media_upload import upload_cloudinary
+    # upload_cloudinary(body['input_file'])
+
+
+@app.route('/api/upload/box', methods=['POST'])
+def upload_box():
+    body = request.json()
+    # from media_upload import upload_box
+    # upload_box(body['input_file'])
 
 
 @app.route('/api/job', methods=['GET'])

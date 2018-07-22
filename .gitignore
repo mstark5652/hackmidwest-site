@@ -6,6 +6,7 @@ build/
 
 # Config
 
+.box_config.json
 config.json
 gc.json
 
