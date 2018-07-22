@@ -88,6 +88,38 @@ svg path {
   height: 0px;
 }
 
+
+.video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:375px;
+  overflow: hidden;
+  height:800px;
+  background:transparent;
+  z-index: $zindex-splash;
+
+  * {
+    box-sizing: border-box;
+  }
+  html, body {
+    padding:0;
+    margin:0;
+  }
+  video {
+    width:100%;
+    background:transparent;
+    position:absolute;
+    top:-1vh;
+  }
+  .holdVideo {
+    position: relative;
+    width:375px;
+    overflow: hidden;
+    height:800px;
+  }
+}
+
 // @media #{$screen-s} {
 //   .side-bar-container {
 //     height: 35%;

@@ -20,6 +20,7 @@ const VIEWS = {
 const SELECTORS = {
   // BTN_INFO: ".btn-info",
   CONTAINER: ".container",
+  VIDEO_CONTAINER: ".video-container",
   NAV_CONTAINER: ".nav-container",
   NOTIFICATION_CENTER: ".notification-center",
   NOTIFICATION_CONTENT: ".notification-content",
@@ -58,6 +59,7 @@ class Ui {
 
   viewsList: ViewsListTypes
   // btnInfo: HTMLButtonElement
+  videoContainer: HTMLElement
   container: HTMLElement
   navContainer: HTMLElement
   notificationCenter: HTMLElement
@@ -84,6 +86,7 @@ class Ui {
     
     // this.btnInfo = document.querySelector(SELECTORS.BTN_INFO)
     this.container = document.querySelector(SELECTORS.CONTAINER)
+    this.videoContainer = document.querySelector(SELECTORS.VIDEO_CONTAINER)
     this.navContainer = document.querySelector(SELECTORS.NAV_CONTAINER)
     this.notificationCenter = document.querySelector(SELECTORS.NOTIFICATION_CENTER)
     this.notificationEle = document.querySelector(SELECTORS.NOTIFICATION_CONTENT)
@@ -126,6 +129,11 @@ class Ui {
 
     this.hideNotification()
     this.toggleLoading(false)
+
+    this.videoContainer.hidden = false
+    setTimeout(() => {
+      this.videoContainer.hidden = true
+    }, 6000);
 
     this.setupAudio()
     this.resetAudioSources()
