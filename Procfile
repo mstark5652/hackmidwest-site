@@ -1,1 +1,1 @@
-web: python run.py --port=8000
+web: gunicorn server.app:app
