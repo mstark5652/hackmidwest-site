@@ -14,7 +14,7 @@ def upload_cloudinary(filepath="/static/images/EM_computer.jpg"):
         api_secret=appConfig.cloudinary_secret)
     cloudinary.uploader.upload(filepath)
 
-def upload_box(filepath="/static/images/DF_flood.jpg"):
+def upload_box(filepath="/static/images/DF_flood.jpg", user="stark"):
     from boxsdk import JWTAuth
     from boxsdk import Client
 
@@ -28,3 +28,9 @@ def upload_box(filepath="/static/images/DF_flood.jpg"):
         jwt_key_id=appConfig.box_auth,
         rsa_private_key_file_sys_path="./.box_config.json",
         rsa_private_key_passphrase=appConfig.box_pass)
+
+    client = Client(sdk)
+    user = client.create_user(user, None)
+
+    box_file = client.folder("neighborhood-uploads").upload(filepath, filepath)
+
