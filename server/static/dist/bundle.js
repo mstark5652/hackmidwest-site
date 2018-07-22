@@ -9564,7 +9564,8 @@ class Ui {
         let _this = this;
         let socket = io.connect('http://' + document.domain + ':' + location.port + NAMESPACE);
         socket.on('connected', function (msg) {
-            _this.showNotification(content_1.content.SOCKET_CONNECTION);
+            // _this.showNotification(content.SOCKET_CONNECTION)
+            console.log(content_1.content.SOCKET_CONNECTION);
         });
         socket.on('marker', function (data) {
             let src = data.src == "" ? content_1.content.SVG.MARKER_AQUA : data.src;

@@ -12,6 +12,7 @@ from okta import UsersClient
 from okta.models.user import User
 from twilio.rest import Client
 
+
 from threading import Lock
 from flask import Flask, request, redirect, session, jsonify, render_template
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
@@ -19,6 +20,8 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
 
 from .util.util import create_guid, web_get, web_post
 from .util.Exception import InvalidUsage, BadRequest, UnauthorizedException
+
+# from .block import execute_contract
 
 DOMAIN = "http://my-neighborhood.herokuapp.com"
 NAMESPACE = "/heremapsapi"
@@ -83,6 +86,12 @@ def create_message():
     res = { "status": "ok" }
     return jsonify(res)
 
+@app.route('/api/tip', methods=['GET'])
+def create_tip():
+    amount = request.args.get('amount')
+    to = request.args.get('to')
+    
+    # execute_contract(to, amount)
 
 
 @app.route('/api/job', methods=['GET'])
