@@ -23,7 +23,7 @@ Jinja2==2.10
 lru-dict==1.1.6
 MarkupSafe==1.0
 mock==2.0.0
-nexosisapi==3.0.1
+nexosisapi==3.0.84
 numpy==1.14.0
 okta==0.0.4
 parsimonious==0.8.0
