@@ -20,15 +20,13 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, \
 
 from .util.util import create_guid, web_get, web_post
 from .util.Exception import InvalidUsage, BadRequest, UnauthorizedException
+from .config import AppConfig
 
 # from .block import execute_contract
 
-DOMAIN = "http://my-neighborhood.herokuapp.com"
+DOMAIN = "http://app.myneighborhood.ai"
 NAMESPACE = "/heremapsapi"
 
-# TWILIO_NUMBER = ""
-# TWILIO_ACCOUNT = ""
-# TWILIO_TOKEN = ""
 
 async_mode = None
 
@@ -238,18 +236,18 @@ def send_state_change(state_type, val):
 
 def send_sms(message, number):
     print("Sending text message:")
+    appConfig = AppConfig()
 
-    client = Client(TWILIO_ACCOUNT, TWILIO_TOKEN)
+    client = Client(appConfig.twilio_id, appConfig.twilio_key)
 
-    message = client.messages.create(body=message, from_=TWILIO_NUMBER, to=number)
+    message = client.messages.create(body=message, from_=appConfig.twilio_number, to=number)
 
 
 def create_okta_user(first, last, phone):
     print("creating okta user {first}, {last}, {phone}".format(
         first=first, last=last, phone=phone))
-
-    usersClient = UsersClient("https://dev-589997.oktapreview.com",
-                              "005_3xKHhWyuyoa4sm2tt5eVdngW0Z4KAS6H7HYAsm")
+    appConfig = AppConfig()
+    usersClient = UsersClient("https://dev-589997.oktapreview.com", appConfig.okta_key)
     user_email = create_guid() + '@email.com'
     user = User(
         login=user_email,
@@ -262,9 +260,10 @@ def create_okta_user(first, last, phone):
 
 
 def get_okta_users():
-    usersClient = UsersClient("https://dev-589997.oktapreview.com",
-                              "005_3xKHhWyuyoa4sm2tt5eVdngW0Z4KAS6H7HYAsm")
+    appConfig = AppConfig()
+    usersClient = UsersClient("https://dev-589997.oktapreview.com", appConfig.okta_key)
     users = usersClient.get_users()
+
     print("Okta User count {}".format(len(users)))
     res = []
     for user in users:

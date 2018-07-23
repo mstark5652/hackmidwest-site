@@ -35,7 +35,8 @@ export class HereMap {
 	initMap() {
 		this.platform = new H.service.Platform({
 			'app_id': this.appId,
-			'app_code': this.apiKey
+			'app_code': this.apiKey,
+			'useHTTPS': true
 		})
 		let maptypes = this.platform.createDefaultLayers()
 		this.map = new H.Map(this.container, maptypes.normal.map)

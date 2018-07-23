@@ -48,7 +48,7 @@ contract Tip {
 
 def execute_contract():
     compiled_sol = compile_source(contract_source_code)  # Compiled source code
-    contract_interface = compiled_sol['<stdin>:Greeter']
+    contract_interface = compiled_sol['<stdin>:Tip']
 
     # web3.py instance
     w3 = Web3(TestRPCProvider(host=QUIK_NODE_URL, port=QUIK_NODE_PORT))
@@ -74,7 +74,7 @@ def execute_contract():
         address=contract_address, abi=abi, ContractFactoryClass=ConciseContract)
 
     # Getters + Setters for web3.eth.contract object
-    print('Contract value: {}'.format(contract_instance.greet()))
-    contract_instance.setGreeting('Nihao', transact={'from': w3.eth.accounts[0]})
-    print('Setting value to: Nihao')
-    print('Contract value: {}'.format(contract_instance.greet()))
+    print('Contract value: {}'.format(contract_instance.tip()))
+    contract_instance.setTip('50', transact={'from': w3.eth.accounts[0]})
+    print('Setting value to: 50')
+    print('Contract value: {}'.format(contract_instance.tip()))

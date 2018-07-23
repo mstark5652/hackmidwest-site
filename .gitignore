@@ -9,6 +9,9 @@ build/
 .box_config.json
 config.json
 gc.json
+config.sh
+config.bat
+
 
 # Babel
 .babel_cache/
