@@ -111,6 +111,12 @@ def tips_predict():
     # results = run_tip_prediction()
     # return jsonify(results)
 
+@app.route('/api/testsms', methods=['GET'])
+def test_sms():
+    number = request.args.get('number')
+    if number is not None:
+        send_sms("Hello from Neighborhood.", number=number)
+    return jsonify({'status': 'ok'})
 
 @app.route('/api/job', methods=['GET'])
 def create_job():
@@ -235,12 +241,16 @@ def send_state_change(state_type, val):
     socketio.emit('state-change', { 'type': state_type, 'val': val }, namespace=NAMESPACE)
 
 def send_sms(message, number):
-    print("Sending text message:")
+    print("Sending text message")
     appConfig = AppConfig()
 
-    client = Client(appConfig.twilio_id, appConfig.twilio_key)
+    try:
+        client = Client(appConfig.twilio_id, appConfig.twilio_key)
 
-    message = client.messages.create(body=message, from_=appConfig.twilio_number, to=number)
+        message = client.messages.create(body=message, from_=appConfig.twilio_number, to=number)
+    except Exception as e:
+        print("Error sending sms")
+        print(e)
 
 
 def create_okta_user(first, last, phone):

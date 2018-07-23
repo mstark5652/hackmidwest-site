@@ -7,10 +7,6 @@ import os, sys
 class AppConfig(object):
 
     def __init__(self):
-        self.load_config()
-
-    def load_config():
-
         self.cloudinary_name = ""
         self.cloudinary_key = ""
         self.cloudinary_secret = ""
