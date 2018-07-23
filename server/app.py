@@ -138,7 +138,7 @@ def create_job():
     users = get_okta_users()
     for user in users:
         if 'phone' in user and user['phone'] is not None and len(user['phone']) > 0 and user['phone'].startswith('+'):
-            sms = "{greet} {user}, {job} Tap here {domain}?response={id} to respond.".format(
+            sms = "{greet} {user}, {job} Tap here {domain}/?response={id} to respond.".format(
                 greet=greetings[rand], job=job, domain=DOMAIN, id=id, user=user['first'])
             send_sms(message=sms, number=user['phone'])
 
