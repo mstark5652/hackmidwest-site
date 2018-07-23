@@ -9036,33 +9036,33 @@ exports.content = {
     HERE_KEY: "BlxE440iqgCq4ll8QsM5cg",
     HERE_ID: "Yuhvbymi3nLkYZbhGSKm",
     SVG: {
-        MARKER_FIRST: "/static/images/map-marker.svg",
+        MARKER_FIRST: "https://s3.us-east-2.amazonaws.com/neighborhood-static/map-marker.svg",
         MARKER_SECOND: "",
-        MARKER_AQUA: "/static/images/pin_aqua.svg",
-        MARKER_BLUE: "/static/images/pin_blue.svg",
-        MARKER_ORANGE: "/static/images/pin_orange.svg",
-        MARKER_PINK: "/static/images/pin_pink.svg",
-        MARKER_PURPLE: "/static/images/pin_purple.svg",
-        MARKER_FLOWER: "/static/images/flower.svg"
+        MARKER_AQUA: "https://s3.us-east-2.amazonaws.com/neighborhood-static/pin_aqua.svg",
+        MARKER_BLUE: "https://s3.us-east-2.amazonaws.com/neighborhood-static/pin_blue.svg",
+        MARKER_ORANGE: "https://s3.us-east-2.amazonaws.com/neighborhood-static/pin_orange.svg",
+        MARKER_PINK: "https://s3.us-east-2.amazonaws.com/neighborhood-static/pin_pink.svg",
+        MARKER_PURPLE: "https://s3.us-east-2.amazonaws.com/neighborhood-static/pin_purple.svg",
+        MARKER_FLOWER: "https://s3.us-east-2.amazonaws.com/neighborhood-static/flower.svg"
     },
     NAV: {
-        CLEAN: "/static/images/nav/clean@3x.png",
-        evelyn: "/static/images/nav/evelyn@3x.png",
-        dwayne: "/static/images/nav/dwayne@3x.png",
-        frank: "/static/images/nav/frank@3x.png",
-        matt: "/static/images/nav/matt@3x.png"
+        CLEAN: "https://s3.us-east-2.amazonaws.com/neighborhood-static/nav/clean@3x.png",
+        evelyn: "https://s3.us-east-2.amazonaws.com/neighborhood-static/nav/evelyn@3x.png",
+        dwayne: "https://s3.us-east-2.amazonaws.com/neighborhood-static/nav/dwayne@3x.png",
+        frank: "https://s3.us-east-2.amazonaws.com/neighborhood-static/nav/frank@3x.png",
+        matt: "https://s3.us-east-2.amazonaws.com/neighborhood-static/nav/matt@3x.png"
     },
     frankDwayne: {
-        accept: "/static/images/frankDwayne/DF_acceptRequest.jpg",
-        console: "/static/images/frankDwayne/DF_consoleDF.jpg",
-        perform: "/static/images/frankDwayne/DF_performingRequest.jpg",
-        tipping: "/static/images/frankDwayne/DF_tippingMatt.jpg"
+        accept: "https://s3.us-east-2.amazonaws.com/neighborhood-static/frankDwayne/DF_acceptRequest.jpg",
+        console: "https://s3.us-east-2.amazonaws.com/neighborhood-static/frankDwayne/DF_consoleDF.jpg",
+        perform: "https://s3.us-east-2.amazonaws.com/neighborhood-static/frankDwayne/DF_performingRequest.jpg",
+        tipping: "https://s3.us-east-2.amazonaws.com/neighborhood-static/frankDwayne/DF_tippingMatt.jpg"
     },
     mattEvelyn: {
-        accept: "/static/images/mattEvelyn/EM_acceptRequest.jpg",
-        console: "/static/images/mattEvelyn/EM_console.jpg",
-        perform: "/static/images/mattEvelyn/EM_performingRequest.jpg",
-        tipping: "/static/images/mattEvelyn/EM_tippingMatt.jpg"
+        accept: "https://s3.us-east-2.amazonaws.com/neighborhood-static/mattEvelyn/EM_acceptRequest.jpg",
+        console: "https://s3.us-east-2.amazonaws.com/neighborhood-static/mattEvelyn/EM_console.jpg",
+        perform: "https://s3.us-east-2.amazonaws.com/neighborhood-static/mattEvelyn/EM_performingRequest.jpg",
+        tipping: "https://s3.us-east-2.amazonaws.com/neighborhood-static/mattEvelyn/EM_tippingMatt.jpg"
     },
     LOCATION: {
         INTOUCH: { lat: 38.9241902, lng: -94.668097 },
@@ -9139,7 +9139,8 @@ class HereMap {
     initMap() {
         this.platform = new H.service.Platform({
             'app_id': this.appId,
-            'app_code': this.apiKey
+            'app_code': this.apiKey,
+            'useHTTPS': true
         });
         let maptypes = this.platform.createDefaultLayers();
         this.map = new H.Map(this.container, maptypes.normal.map);
