@@ -5,17 +5,17 @@
 class AppConfig(object):
 
     def __init__(self):
-        self.cloudinary_name = "dvuixyf9j"
-        self.cloudinary_key = "266881285298756"
-        self.cloudinary_secret = "d3MejyIXJQEezXr7xM075CpSD7Q"
+        self.cloudinary_name = ""
+        self.cloudinary_key = ""
+        self.cloudinary_secret = ""
         self.twilio_id = ""
         self.twilio_key = ""
         self.twilio_number = ""
 
         self.nexosis_key = ""
 
-        self.elastic_user = "elastic"
-        self.elastic_pw = "okkekJYcY6SeSjlp0wMJmR5y"
+        self.elastic_user = ""
+        self.elastic_pw = ""
 
         self.load_box_auth()
 

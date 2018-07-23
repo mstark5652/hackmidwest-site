@@ -26,9 +26,9 @@ from .util.Exception import InvalidUsage, BadRequest, UnauthorizedException
 DOMAIN = "http://my-neighborhood.herokuapp.com"
 NAMESPACE = "/heremapsapi"
 
-TWILIO_NUMBER = "+19132707424"
-TWILIO_ACCOUNT = "AC982d6db5b7489f809342ed2e26d8b97b"
-TWILIO_TOKEN = "bab19841b68a213739f6fe8d6e256269"
+# TWILIO_NUMBER = ""
+# TWILIO_ACCOUNT = ""
+# TWILIO_TOKEN = ""
 
 async_mode = None
 
