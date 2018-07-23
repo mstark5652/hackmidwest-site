@@ -24,7 +24,7 @@ from .config import AppConfig
 
 # from .block import execute_contract
 
-DOMAIN = "http://app.myneighborhood.ai"
+DOMAIN = "https://app.myneighborhood.ai"
 NAMESPACE = "/heremapsapi"
 
 
